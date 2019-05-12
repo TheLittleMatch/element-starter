@@ -3,7 +3,6 @@
     <img class="logo" src="./assets/logo.png">
     <div>
       <router-view></router-view>
-      <el-button @click="startHacking">Start</el-button>
     </div>
   </div>
 </template>
@@ -25,9 +24,14 @@ export default {
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Helvetica, sans-serif;
   text-align: center;
+  background-color: #fbfbfb;
 }
 .logo {
   width: 100px;

@@ -1,6 +1,17 @@
 <template>
 <div>
-<h1>这是注册页</h1>
+<h1>Join Sytem</h1>
+
+username
+
+password
+
+confirm password
+email
+
+register
+
+
 </div>
 </template>
 
