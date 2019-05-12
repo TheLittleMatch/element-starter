@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <img class="logo" src="./assets/logo.png">
     <div>
+      <img class="logo" src="./assets/logo.png">
       <router-view></router-view>
     </div>
   </div>
@@ -9,17 +9,7 @@
 
 <script>
 export default {
-  methods: {
-    startHacking() {
-      this.$notify({
-        title: "It works!",
-        type: "success",
-        message:
-          "We've laid the ground work for you. It's time for you to build something epic!",
-        duration: 5000
-      });
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -36,6 +26,6 @@ export default {
 .logo {
   width: 100px;
   height: 100px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 </style>

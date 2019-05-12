@@ -1,40 +1,84 @@
 <template>
   <div class="mainContainer">
     <h1>Sign in to System</h1>
-    <form action method="post">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" method="post">
       <div class="middle">
         <div class="username">
-          <span>Phone or email address</span>
+          <el-form-item label="Phone or email address" prop="username">
+            <el-input v-model="ruleForm.username" type="text"></el-input>
+          </el-form-item>
         </div>
-        <input type="text">
         <div class="password">
-          <span>Password</span>
-          <span>
+          <el-form-item label="Password" prop="password">
             <router-link to="/forgot">Forgot password</router-link>
-          </span>
+            <el-input v-model="ruleForm.password" type="password"></el-input>
+          </el-form-item>
         </div>
-        <input type="password">
-        <el-button type="primary" class="myButton">Sign in</el-button>
+        <el-button type="primary" class="myButton" @click="submitForm('ruleForm')">Sign in</el-button>
       </div>
 
       <div class="bottom">
         <span>
           New to System?
-          <a href="#">Create a count</a>
+          <router-link to="register">Create a count</router-link>
         </span>
       </div>
-    </form>
+    </el-form>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      ruleForm: {
+        username: "",
+        password: ""
+      },
+      rules: {
+        username: [
+          { required: true, message: "用户名不能为空" },
+          {
+            pattern: /^1[34578]\d{9}$/,
+            message: "非法手机号"
+          }
+        ],
+        password: [{ required: true, message: "密码不能为空" }]
+      }
+    };
+  },
+  mounted() {
+    this.resetForm("ruleForm");
   },
   methods: {
-
-
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$api.post(
+            "login",
+            {
+              username: this.ruleForm.username,
+              password: this.ruleForm.password
+            },
+            response => {
+              if (response.status >= 200 && response.status < 300) {
+                console.log(response.data); //请求成功，response为成功信息参数
+                this.$router.push({ path: "/home" });
+              } else {
+                console.log(response.message); //请求失败，response为失败信息
+              }
+            }
+          );
+        } else {
+          console.log("error submit!!");
+          alert("用户名或密码错误")
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 };
 </script>
@@ -73,7 +117,7 @@ input {
   margin: 5px 0;
 }
 .middle {
-  margin-top: 10px;
+  margin-top: 5px;
   padding: 10px 15px;
   border: 1px solid #d8dee2;
   border-radius: 3px;
@@ -87,10 +131,8 @@ input {
 }
 .username span {
   float: left;
-  margin-bottom: 8px;
 }
 .password {
-  margin: 8px 0;
   display: flex;
   justify-content: space-between;
 }
@@ -108,7 +150,6 @@ input {
   background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
   color: #fff;
   font-weight: 700px;
-  margin: 20px 0;
 }
 .bottom span {
   display: block;
